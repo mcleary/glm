@@ -29,7 +29,6 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-//#define GLM_FORCE_AVX2
 #define GLM_SWIZZLE
 #include <glm/vector_relational.hpp>
 #include <glm/vec2.hpp>
@@ -153,6 +152,26 @@ int test_vec4_ctor()
 			Error += Tests[i] == glm::vec4(1, 2, 3, 4) ? 0 : 1;
 	}
 	
+	return Error;
+}
+
+int test_bvec4_ctor()
+{
+	int Error = 0;
+
+	glm::bvec4 const A(true);
+	glm::bvec4 const B(true);
+	glm::bvec4 const C(false);
+	glm::bvec4 const D = A && B;
+	glm::bvec4 const E = A && C;
+	glm::bvec4 const F = A || C;
+	bool const G = A == C;
+	bool const H = A != C;
+
+	Error += D == glm::bvec4(true) ? 0 : 1;
+	Error += E == glm::bvec4(false) ? 0 : 1;
+	Error += F == glm::bvec4(true) ? 0 : 1;
+
 	return Error;
 }
 
@@ -398,7 +417,7 @@ int test_vec4_perf_AoS(std::size_t Size)
 
 	std::clock_t EndTime = std::clock();
 
-  std::printf("AoS: %d\n", EndTime - StartTime);
+	std::printf("AoS: %ld\n", EndTime - StartTime);
 
 	return Error;
 }
@@ -437,27 +456,55 @@ int test_vec4_perf_SoA(std::size_t Size)
 
 	std::clock_t EndTime = std::clock();
 
-	std::printf("SoA: %d\n", EndTime - StartTime);
+	std::printf("SoA: %ld\n", EndTime - StartTime);
 
 	return Error;
 }
+
+namespace heap
+{
+	class A
+	{
+		float f;
+	};
+
+	class B : public A
+	{
+		float g;
+		glm::vec4 v;
+	};
+
+	int test()
+	{
+		int Error(0);
+
+		A* p = new B;
+		delete p;
+
+		return Error;
+	}
+}//namespace heap
 
 int main()
 {
 	int Error(0);
 
-	std::size_t const Size(1000000);
+	glm::vec4 v;
+	assert(v.length() == 4);
 
 #	ifdef NDEBUG
+		std::size_t const Size(1000000);
 		Error += test_vec4_perf_AoS(Size);
 		Error += test_vec4_perf_SoA(Size);
 #	endif//NDEBUG
 
 	Error += test_vec4_ctor();
+	Error += test_bvec4_ctor();
 	Error += test_vec4_size();
 	Error += test_vec4_operators();
 	Error += test_vec4_swizzle_partial();
 	Error += test_operator_increment();
+	Error += heap::test();
 
 	return Error;
 }

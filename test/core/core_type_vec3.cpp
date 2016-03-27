@@ -263,7 +263,6 @@ int test_vec3_size()
 	Error += 24 == sizeof(glm::highp_dvec3) ? 0 : 1;
 	Error += glm::vec3().length() == 3 ? 0 : 1;
 	Error += glm::dvec3().length() == 3 ? 0 : 1;
-	
 	return Error;
 }
 
@@ -493,6 +492,9 @@ int test_operator_increment()
 int main()
 {
 	int Error = 0;
+
+	glm::vec3 v;
+	assert(v.length() == 3);
 
 	Error += test_vec3_ctor();
 	Error += test_vec3_operators();

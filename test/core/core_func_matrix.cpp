@@ -101,7 +101,18 @@ int test_matrixCompMult()
 
 int test_outerProduct()
 {
-	glm::mat4 m = glm::outerProduct(glm::vec4(1.0f), glm::vec4(1.0f));
+	{ glm::mat2 m = glm::outerProduct(glm::vec2(1.0f), glm::vec2(1.0f)); }
+	{ glm::mat3 m = glm::outerProduct(glm::vec3(1.0f), glm::vec3(1.0f)); }
+	{ glm::mat4 m = glm::outerProduct(glm::vec4(1.0f), glm::vec4(1.0f)); }
+
+  { glm::mat2x3 m = glm::outerProduct(glm::vec3(1.0f), glm::vec2(1.0f)); }
+  { glm::mat2x4 m = glm::outerProduct(glm::vec4(1.0f), glm::vec2(1.0f)); }
+
+  { glm::mat3x2 m = glm::outerProduct(glm::vec2(1.0f), glm::vec3(1.0f)); }
+  { glm::mat3x4 m = glm::outerProduct(glm::vec4(1.0f), glm::vec3(1.0f)); }
+  
+  { glm::mat4x2 m = glm::outerProduct(glm::vec2(1.0f), glm::vec4(1.0f)); }
+  { glm::mat4x3 m = glm::outerProduct(glm::vec3(1.0f), glm::vec4(1.0f)); }
 
 	return 0;
 }
@@ -207,10 +218,8 @@ int test_inverse()
 	return Failed;
 }
 
-std::size_t const Count(10000000);
-
 template <typename VEC3, typename MAT4>
-int test_inverse_perf(std::size_t Instance, char const * Message)
+int test_inverse_perf(std::size_t Count, std::size_t Instance, char const * Message)
 {
 	std::vector<MAT4> TestInputs;
 	TestInputs.resize(Count);
@@ -264,10 +273,11 @@ int main()
 	Error += test_inverse();
 
 #	ifdef NDEBUG
+	std::size_t const Samples(1000);
 	for(std::size_t i = 0; i < 1; ++i)
 	{
-		Error += test_inverse_perf<glm::vec3, glm::mat4>(i, "mat4");
-		Error += test_inverse_perf<glm::dvec3, glm::dmat4>(i, "dmat4");
+		Error += test_inverse_perf<glm::vec3, glm::mat4>(Samples, i, "mat4");
+		Error += test_inverse_perf<glm::dvec3, glm::dmat4>(Samples, i, "dmat4");
 	}
 #	endif//NDEBUG
 
