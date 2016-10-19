@@ -53,9 +53,11 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 
 #### [GLM 0.9.9.0](https://github.com/g-truc/glm/releases/latest) - 2017-XX-XX
 ##### Features:
+- Added RGBM encoding in GTC_packing #420
 - Added GTC_color_encoding extension
 
 ##### Improvements:
+- Added lowp variant of GTC_colorspace convertLinearToSRGB #419
 
 ##### Fixes:
 
@@ -72,6 +74,8 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 ##### Improvements:
 - Added Visual C++ 15 detection
 - Added Clang 4.0 detection
+- Added warning messages when using GLM_FORCE_CXX** but the compiler
+  is known to not fully support the requested C++ version #555
 - Refactored GLM_COMPILER_VC values
 
 ##### Fixes:
