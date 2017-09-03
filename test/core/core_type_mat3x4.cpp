@@ -1,3 +1,5 @@
+#include <glm/gtc/epsilon.hpp>
+#include <glm/gtc/constants.hpp>
 #include <glm/vector_relational.hpp>
 #include <glm/mat2x2.hpp>
 #include <glm/mat2x3.hpp>
@@ -77,7 +79,7 @@ int test_ctr()
 
 namespace cast
 {
-	template <typename genType>
+	template<typename genType>
 	int entry()
 	{
 		int Error = 0;
@@ -87,7 +89,7 @@ namespace cast
 		glm::mat3x4 Identity(1.0f);
 
 		for(glm::length_t i = 0, length = B.length(); i < length; ++i)
-			Error += glm::all(glm::equal(B[i], Identity[i])) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(B[i], Identity[i], glm::epsilon<float>())) ? 0 : 1;
 
 		return Error;
 	}
@@ -110,6 +112,20 @@ namespace cast
 	}
 }//namespace cast
 
+int test_size()
+{
+	int Error = 0;
+
+	Error += 48 == sizeof(glm::mat3x4) ? 0 : 1;
+	Error += 96 == sizeof(glm::dmat3x4) ? 0 : 1;
+	Error += glm::mat3x4().length() == 3 ? 0 : 1;
+	Error += glm::dmat3x4().length() == 3 ? 0 : 1;
+	Error += glm::mat3x4::length() == 3 ? 0 : 1;
+	Error += glm::dmat3x4::length() == 3 ? 0 : 1;
+
+	return Error;
+}
+
 int main()
 {
 	int Error = 0;
@@ -117,6 +133,7 @@ int main()
 	Error += cast::test();
 	Error += test_ctr();
 	Error += test_operators();
+	Error += test_size();
 
 	return Error;
 }

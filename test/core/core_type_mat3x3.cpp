@@ -13,7 +13,7 @@
 #include <cstdio>
 #include <vector>
 
-void print(glm::dmat3 const & Mat0)
+void print(glm::dmat3 const& Mat0)
 {
 	printf("mat3(\n");
 	printf("\tvec3(%2.3f, %2.3f, %2.3f)\n", Mat0[0][0], Mat0[0][1], Mat0[0][2]);
@@ -136,7 +136,7 @@ int test_ctr()
 
 namespace cast
 {
-	template <typename genType>
+	template<typename genType>
 	int entry()
 	{
 		int Error = 0;
@@ -169,6 +169,20 @@ namespace cast
 	}
 }//namespace cast
 
+int test_size()
+{
+	int Error = 0;
+
+	Error += 36 == sizeof(glm::mat3x3) ? 0 : 1;
+	Error += 72 == sizeof(glm::dmat3x3) ? 0 : 1;
+	Error += glm::mat3x3().length() == 3 ? 0 : 1;
+	Error += glm::dmat3x3().length() == 3 ? 0 : 1;
+	Error += glm::mat3x3::length() == 3 ? 0 : 1;
+	Error += glm::dmat3x3::length() == 3 ? 0 : 1;
+
+	return Error;
+}
+
 int main()
 {
 	int Error = 0;
@@ -178,6 +192,7 @@ int main()
 	Error += test_mat3x3();
 	Error += test_operators();
 	Error += test_inverse();
+	Error += test_size();
 
 	return Error;
 }
