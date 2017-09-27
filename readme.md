@@ -64,7 +64,11 @@ glm::mat4 camera(float Translate, glm::vec2 const& Rotate)
 - Added quatLookAt to GTX_quaternion #659
 - Added fmin, fmax and fclamp to GTX_extended_min_max #372
 - Added EXT_vector_relational: extend equal and notEqual to take an epsilon argument
+- Added EXT_vector_relational: openBounded and closeBounded
 - Added EXT_vec1: *vec1 types
+- Added GTX_texture: levels function
+- Added spearate functions to use both nagative one and zero near clip plans #680
+- Added GLM_FORCE_SINGLE_ONLY to use GLM on platforms that don't support double #627
 
 #### Improvements:
 - No more default initialization of vector, matrix and quaternion types
@@ -101,7 +105,8 @@ glm::mat4 camera(float Translate, glm::vec2 const& Rotate)
 - Fixed documentation warnings
 - Fixed GLM_HAS_OPENMP when OpenMP is not enabled
 - Fixed Better follow GLSL min and max specification #372
-- Fixed quaternion constructor from two vectors special cases #469 
+- Fixed quaternion constructor from two vectors special cases #469
+- Fixed glm::to_string on quaternions wrong components order #681
 
 #### Deprecation:
 - Requires Visual Studio 2013, GCC 4.7, Clang 3.4, Cuda 7, ICC 2013 or a C++11 compiler
